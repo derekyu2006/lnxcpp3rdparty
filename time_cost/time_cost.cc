@@ -64,15 +64,6 @@ std::string CurUTCTimeStr() {
   return time_str;
 }
 
-/*
-   int64_t UTCTimeToTimestamp(const std::string& str) {
-   ptime utc_tick(time_from_string(str));
-   ptime epoch(time_from_string("1970-1-1 00:00:00.000"));
-   time_duration t = utc_tick - epoch;
-   return t.total_seconds();
-   }
-   */
-
 int64_t TimeToTimestamp(const std::string& str) {
   struct tm utc_time;
   memset(&utc_time, 0, sizeof(struct tm));
@@ -128,9 +119,7 @@ int64_t DateStringToUTCTimeStamp(const std::string& str) {
   //
   // 10 is the length of string "2015-10-25"
   if (strlen(buf) > 10) {
-    // if ('-' == buf[10] || '.' == buf[10]) {
-      buf[10] = ' ';
-    // }
+    buf[10] = ' ';
   }
 
   // convert string to struct tm
