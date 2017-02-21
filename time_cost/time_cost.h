@@ -35,6 +35,8 @@ int64_t ZoneToUTCSeconds(const int64_t& zone_seconds,
 int64_t UTCToZoneSeconds(const int64_t& utc_seconds,
   const int32_t& zone_diff_hour);
 
+void SleepUntilAtTime(const int32_t hour, const int32_t min = 0,
+  const int32_t sec = 0);
 
 // convert date string to utc time stamp, which is expressed in milliseconds.
 // [Parameters]:

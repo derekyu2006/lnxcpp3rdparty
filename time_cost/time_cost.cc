@@ -87,6 +87,27 @@ int64_t UTCToZoneSeconds(const int64_t& utc_seconds,
   return utc_seconds + (zone_diff_hour * 60 * 60);
 }
 
+// sleep到参数指定的hour:min
+inline void SleepUntilAtTime(const int32_t hour, const int32_t min = 0,
+    const int32_t sec = 0) {
+  int64_t now = newstone::ccommon::CurUTCTimeStampSeconds();
+
+  struct tm *tt = NULL;
+  tt = gmtime((time_t*)(&now));
+  tt->tm_hour = hour;
+  tt->tm_min = min;
+  tt->tm_sec = sec;
+
+  int64_t wait_sec = 0;
+  int64_t attime = int64_t(mktime(tt));
+  if (attime <= now) wait_sec = now - attime;
+  else {
+    int64_t next_attime = attime + 86400; // 下一天的这一刻对应的时间.
+    wait_sec = next_attime - now;
+  }
+
+  std::this_thread::sleep_for(std::chrono::seconds(wait_sec));
+}
 
 int64_t DateStringToUTCTimeStamp(const std::string& str) {
   if (str.empty()) {
